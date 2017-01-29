@@ -7,8 +7,8 @@
 
 #include <avr/wdt.h>
 #include <Wire.h>
-#include <TimeLib.h>
 #include "utils.h"
+#include "rele.h"
 
 /**
  * 
@@ -25,5 +25,9 @@ void setup() {
  * 
  */
 void loop() {
+	taskFan();
+	taskBathroomLights();
+	taskThermostat();
+
   wdt_reset();
 }
