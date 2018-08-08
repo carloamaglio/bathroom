@@ -9,6 +9,9 @@
 #include <Wire.h>
 #include "utils.h"
 #include "rele.h"
+#include "fan.h"
+
+Fan fan;
 
 /**
  * 
@@ -21,13 +24,25 @@ void setup() {
   wdt_enable(WDTO_2S);
 }
 
+void taskBathroomLights();
+void taskThermostat();
+
 /**
  * 
  */
 void loop() {
-	taskFan();
+	fan.task();
 	taskBathroomLights();
 	taskThermostat();
 
   wdt_reset();
 }
+
+void taskBathroomLights() {
+  
+}
+
+void taskThermostat() {
+  
+}
+
