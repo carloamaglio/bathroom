@@ -9,15 +9,80 @@
 #define UTILS_H
 
 #include <arduino.h>
+//#define DEBUG
+#ifdef DEBUG
 #include <stdio.h>
+#endif
 
-typedef struct timer {
-  unsigned long start;
-  unsigned long interval;
-} timer;
+class Delay {
+  public:
+	Delay() {};
+	void set(unsigned long interval) {
+		this->interval = interval;
+		this->start = millis();
+	};
+	// 1=elapsed
+	int value() {
+		return (millis() - start) >= interval;
+	};
+  private:
+	unsigned long start;
+	unsigned long interval;
+};
 
-extern void timerSet(timer* t, unsigned long interval);
-extern int timerExpired(timer* t);
+
+class DigitalInput {
+  public:
+    DigitalInput(int addr, char trueValue=1) {
+		this->addr = addr;
+		this->trueValue = (trueValue!=0);
+		if (addr>=A0) {
+			pinMode(addr,  INPUT_PULLUP);
+		} else {
+			pinMode(addr, INPUT);
+			digitalWrite(addr, 1);
+		}
+	}
+    char value() { return (digitalRead(addr)!=0) == trueValue; }
+  private:
+	int addr;
+	char trueValue;
+};
+
+
+class Debounce {
+  public:
+    Debounce(DigitalInput *input, long delay=50);
+    void task();
+    char value() { return state; }
+  private:
+	DigitalInput *input;
+	long delay;
+	long lastTime;
+	char lastInput;
+    char state;
+};
+
+
+class Pulse : Debounce {
+	public:
+		Pulse(DigitalInput *input, long delay) : Debounce(input, delay) {}
+		Pulse(DigitalInput *input) : Debounce(input) {}
+		int value();
+	private:
+		int state;
+};
+
+
+class MultiFunctionBtn : Pulse {
+	public:
+		MultiFunctionBtn(DigitalInput *input) : Pulse(input) {}
+		int value();	// 0=no edge event, 1=rising edge, -1=falling edge
+	private:
+		int state;
+		Delay t[1];
+};
+
 
 #ifdef DEBUG
 #define p(S)	Serial.print(S)

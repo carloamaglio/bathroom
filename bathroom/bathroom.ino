@@ -10,8 +10,9 @@
 #include "utils.h"
 #include "rele.h"
 #include "fan.h"
+#include "light.h"
+#include "lightshower.h"
 
-Fan fan;
 
 /**
  * 
@@ -21,28 +22,23 @@ void setup() {
   while (!Serial) ; // wait for Arduino Serial Monitor
   delay(200);
 
+  fanSetup();
+  lightSetup();
+  lightShowerSetup();
+
+  p("setup executed\n");
   wdt_enable(WDTO_2S);
 }
-
-void taskBathroomLights();
-void taskThermostat();
 
 /**
  * 
  */
 void loop() {
-	fan.task();
-	taskBathroomLights();
-	taskThermostat();
+	fanLoop();
+	lightLoop();
+	lightShowerLoop();
 
-  wdt_reset();
+	wdt_reset();
 }
 
-void taskBathroomLights() {
-  
-}
-
-void taskThermostat() {
-  
-}
 

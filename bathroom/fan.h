@@ -8,16 +8,10 @@
 #ifndef FAN_H
 #define FAN_H
 
-#include <arduino.h>
-#include "rele.h"
 
-class Fan {
-  public:
-    Fan();
-    void task();
-  private:
-    Rele rele;
-};
+extern void fanSetup();
+extern void fanLoop();
+
 
 #endif
 

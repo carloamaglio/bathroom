@@ -13,12 +13,13 @@
 class Rele {
   public:
     Rele();
-    void setAddr(int addr, int state=0);
-    void setState(int state);
-    int getState();
+    Rele(int addr, int state=0);
+    void init(int addr, int state=0);
+    void setValue(int value);
+    int value();
   private:
-    char state;
     int addr;
+    char _value;
 };
 
 #endif

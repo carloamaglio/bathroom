@@ -8,22 +8,26 @@
 #include <arduino.h>
 #include "rele.h"
 
+
 Rele::Rele() {
 }
 
-void Rele::setAddr(int addr, int state=0) {
+Rele::Rele(int addr, int value=0) {
+  init(addr, value);
+}
+
+void Rele::init(int addr, int value=0) {
   this->addr = addr;
   pinMode(addr, OUTPUT);
-  setState(state);
+  setValue(value);
 }
 
-void Rele::setState(int state) {
-  digitalWrite(addr, state);
-  this->state = state;
+void Rele::setValue(int value) {
+  digitalWrite(addr, value==0);
+  _value = value;
 }
 
-int Rele::getState() {
-  return state;
+int Rele::value() {
+  return _value;
 }
-
 
