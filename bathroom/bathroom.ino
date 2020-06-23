@@ -1,4 +1,4 @@
-/*
+/* :mode=c:
  * bathroom - 
  *  Carlo Amaglio, Via Emigli 10 - 25081 Bedizzole (Italy)
  * 
